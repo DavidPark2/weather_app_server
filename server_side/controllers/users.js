@@ -1,7 +1,6 @@
 var express = require('express');
 var controller = express.Router();
 var User = require('../models/Users');
-var Post = require('../models/Posts');
 var bcrypt = require('bcrypt');
 var Salt = bcrypt.genSaltSync(10);
 
@@ -18,8 +17,7 @@ controller.post('/signup', function(req, res, next){
   var userInfo = {
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, Salt),
-    homeLocation: req.body.homeLocation
+    password: bcrypt.hashSync(req.body.password, Salt)
   };
   User.find({ email: userInfo.email }, function(err, users) {
     if (users.length >= 1) {
@@ -49,9 +47,7 @@ controller.post('/login', function(req, res, next) {
       req.session.user = user[0].email;
       req.session.username = user[0].username;
       res.json({ 'success': true,
-                 'username': user[0].username,
-                 'homeLocation': user[0].homeLocation });
-
+                 'username': user[0].username});
     } else {
       res.json({ 'success': false });
     }
