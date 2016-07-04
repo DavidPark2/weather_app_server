@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
+var session = require('express-session');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+require('./db/database');
+
+var weather = require('./controllers/weather');
+var users = require('./controllers/users');
 
 var app = express();
 
@@ -16,6 +20,7 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +28,15 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.set('trust proxy', 1);
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+
+app.use('/', weather);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
