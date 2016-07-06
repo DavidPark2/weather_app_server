@@ -8,7 +8,7 @@ function get_coordinates(location) {
 	$.ajax({
 		method: 'get',
 		// Change api key!!!
-		url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&key=YOUR_API_KEY',
+		url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location + "&=key" + ENV['MAPS_KEY'],
 		datatype: 'json',
 		async: false,
 		success: function(data) {
