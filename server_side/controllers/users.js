@@ -22,10 +22,9 @@ controller.post('/signup', function(req, res, next){
   User.find({ email: userInfo.email }, function(err, users) {
     if (users.length >= 1) {
       res.json({ 'success': false })
-    } else if (users.length === 0 || (users.length === 1 && users[0].username !== userInfo.username || users[0].email !== userInfo.email)) {
+    } else if (users.length === 0 ) {
       User.create(userInfo, function(err, users) {
-        req.session.user = userInfo.email;
-        req.session.username = userInfo.username;
+        req.session.email = userInfo.email;
         res.json({ 'success': true })
       });
     } else {
@@ -44,8 +43,7 @@ controller.post('/login', function(req, res, next) {
   User.find({ email: userInfo.email }, function(err, user) {
     var isPasswordValid = bcrypt.compareSync(userInfo.password, user[0].password);
     if (isPasswordValid) {
-      req.session.user = user[0].email;
-      req.session.username = user[0].username;
+      req.session.email = user[0].email;
       res.json({ 'success': true,
                  'username': user[0].username});
     } else {
@@ -62,17 +60,16 @@ controller.put('/update', function(req, res) {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, Salt)
   };
-  User.findOneAndUpdate({ email: req.session.user }, userInfo, function (err, users) {
+  User.findOneAndUpdate({ email: req.session.email }, userInfo, function (err, users) {
     if (err) console.log(err);
-    req.session.user = userInfo.email;
-    req.session.username = userInfo.username
+    req.session.email = userInfo.email;
     res.json({ 'message': 'Account has been updated' })
   })
 })
 
 // DELETE
 controller.delete('/delete', function(req, res) {
-  User.findOneAndRemove({ email: req.session.user }, req.session, function(err, user) {
+  User.findOneAndRemove({ email: req.session.email }, req.session, function(err, user) {
     if (err) console.log(err);
     res.json({ 'message': 'Account has been deleted' })
   })

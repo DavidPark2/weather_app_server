@@ -4,7 +4,8 @@ var weatherSchema = new mongoose.Schema({
   location: String,
   lat: Number,
   lng: Number,
-  userName: String
+  email: String,
+  created_at: Date
 });
 
 module.exports = mongoose.model("Weather", WeatherSchema)
