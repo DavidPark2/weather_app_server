@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
 							<Link to="/hourly">Hourly</Link>
 						</li>
 						<li className="col-lg-2">
-							<Link to="/fiveDay">5 Day</Link>
+							<Link to="/daily">5 Day</Link>
 						</li>
 						<li className="col-lg-2">
 							<Link to="/yearly">Year to Year Comparison</Link>
