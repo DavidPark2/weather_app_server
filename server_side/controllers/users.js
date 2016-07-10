@@ -49,7 +49,7 @@ controller.post('/login', function(req, res, next) {
     if (isPasswordValid) {
       req.session.email = user[0].email;
       // testing--------------------------
-      console.log(req.session);
+      console.log(req.session.email);
       res.json({ 'success': true,
                  'username': user[0].username});
     } else {

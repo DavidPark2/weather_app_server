@@ -30,13 +30,12 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'spacecats',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+  saveUninitialized: false
+}));
 
 app.use('/weather', weather);
 app.use('/users', users);

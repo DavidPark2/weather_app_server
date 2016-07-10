@@ -21,41 +21,40 @@ controller.post('/search', function(req, res, next) {
 	console.log(lat);
 	console.log(lng);
 	console.log('------------------------------- coordinatesAndCity')
-	// HTTP request for current Weather
-	var currentWeather = weatherRequest.get_current_weather(lat, lng);
-	console.log(currentWeather);
-	console.log('------------------------------- currentWeather')
-	// previous 5 days AJAX
-	var pastWeather = weatherAjax.get_pass_weather(coordinatesAndCity.lat, coordinatesAndCity.lng);
-	console.log(pastWeather);
-	console.log('------------------------------- pastWeather')
+	// HTTP request for current Weather and previous 5 days
+	var allWeather = weatherRequest.get_current_weather(lat, lng);
+	console.log(allWeather);
+	console.log('------------------------------- allWeather')
 
 	var location = {
-		location: coordinatesAndCity.city,
-		lat: coordinatesAndCity.lat,
-		lng: coordinatesAndCity.lng,
+		location: city,
+		lat: lat,
+		lng: lng,
 		email: req.session.email,
 		created_at: Date.now()
 	};
 	// testing if location works correctly
 	console.log(location);
+	console.log(req.session.email);
+	console.log('EMAIL EMAIL EMAIL');
 
 	User.find({ email: req.session.email }, function(err, email) {			
 		// This means it found a account in the database
 		if (email.length >= 1) {
-			Weather.Create(location, function(err, users) {
+			Weather.create(location, function(err, users) {
+				console.log('logged in!MMMMMMMMMMMMMMMMMMMMMMMMM');
 				res.json({ coordinatesAndCity: coordinatesAndCity,
-					   	   currentWeather: currentWeather,
-					   	   pastWeather: pastWeather,
+					   	   allWeather: allWeather,
 					   	   searchHistory: [{
-					   			location: user.location,
-					   			created_at: user.created_at}]
+					   	   	// CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					   			location: email.location,
+					   			created_at: email.created_at}]
 				});
 			});
 		} else {
+			console.log('not logged in!WWWWWWWWWWWWWWWWWWWWW');
 			res.json({ coordinatesAndCity: coordinatesAndCity,
-					   currentWeather: currentWeather,
-					   pastWeather: pastWeather});
+					   allWeather: allWeather});
 		}
 	});
 });
