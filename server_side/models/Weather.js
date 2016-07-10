@@ -8,4 +8,4 @@ var weatherSchema = new mongoose.Schema({
   created_at: Date
 });
 
-module.exports = mongoose.model("Weather", WeatherSchema)
+module.exports = mongoose.model("Weather", weatherSchema)

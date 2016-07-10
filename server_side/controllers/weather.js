@@ -2,18 +2,33 @@ var express = require('express');
 var controller = express.Router();
 var User = require('../models/Users');
 var Weather = require('../models/Weather');
-var coordinatesAjax = require('../public/coordinates_ajax')
-var weatherAjax = require('../public/weather_ajax')
+var coorRequest = require('../public/coordinates_request');
+var weatherRequest = require('../public/weather_request');
 
 controller.post('/search', function(req, res, next) {
+
 	// user given location
 	var userLocation = req.body.location;
-	// coordinates AJAX
-	var coordinatesAndCity = coordinatesAjax.get_coordinates(userLocation);
-	// current weather AJAX
-	var currentWeather = weatherAjax.get_current_weather(coordinatesAndCity.lat, coordinatesAndCity.lng);
+	console.log(userLocation);
+	console.log('------------------------------- userLocation')
+
+	// HTTP request for coordinates
+	var coordinatesAndCity = coorRequest.coordinatesAndCity(userLocation);
+	var city = coordinatesAndCity.results[0].formatted_address;
+	var lat = coordinatesAndCity.results[0].geometry.location.lat;
+	var lng = coordinatesAndCity.results[0].geometry.location.lng;
+	console.log(city);
+	console.log(lat);
+	console.log(lng);
+	console.log('------------------------------- coordinatesAndCity')
+	// HTTP request for current Weather
+	var currentWeather = weatherRequest.get_current_weather(lat, lng);
+	console.log(currentWeather);
+	console.log('------------------------------- currentWeather')
 	// previous 5 days AJAX
 	var pastWeather = weatherAjax.get_pass_weather(coordinatesAndCity.lat, coordinatesAndCity.lng);
+	console.log(pastWeather);
+	console.log('------------------------------- pastWeather')
 
 	var location = {
 		location: coordinatesAndCity.city,

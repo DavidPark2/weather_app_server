@@ -38,7 +38,7 @@ app.use(session({
   cookie: { secure: true }
 }))
 
-app.use('/', weather);
+app.use('/weather', weather);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
