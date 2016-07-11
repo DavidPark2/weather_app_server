@@ -12,12 +12,14 @@ module.exports.get_current_weather = function(lats, lngs) {
 	var fourYearPast;
 	var fiveYearPast;
 
+	// FIX CALCULATION FOR LEAP YEAR _____________________________________
 	var currentTime = Math.round(new Date().getTime()/1000.0);
 	var oneYearBefore = currentTime - (60 * 60 * 24 * 365);
 	var twoYearBefore = oneYearBefore - (60 * 60 * 24 * 365);
 	var threeYearBefore = twoYearBefore - (60 * 60 * 24 * 365);
 	var fourYearBefore = threeYearBefore - (60 * 60 * 24 * 365);
 	var fiveYearBefore = fourYearBefore - (60 * 60 * 24 * 365);
+	// FIX CALCULATION FOR LEAP YEAR _____________________________________
 
 	// current http request
 	request.get('https://api.forecast.io/forecast/' + forecastAPI + '/' + lats + ',' + lngs, function (err, res, body) {

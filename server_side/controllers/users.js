@@ -50,8 +50,7 @@ controller.post('/login', function(req, res, next) {
       req.session.email = user[0].email;
       // testing--------------------------
       console.log(req.session.email);
-      res.json({ 'success': true,
-                 'username': user[0].username});
+      res.json({ 'success': true});
     } else {
       res.json({ 'success': false });
     }
