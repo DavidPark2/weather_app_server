@@ -5,7 +5,7 @@ var weatherSchema = new mongoose.Schema({
   lat: Number,
   lng: Number,
   email: String,
-  created_at: Date
+  created_at: Number
 });
 
 module.exports = mongoose.model("Weather", weatherSchema)
