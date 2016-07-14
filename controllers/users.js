@@ -20,16 +20,16 @@ controller.post('/signup', function(req, res, next){
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, salt)
   };
-  // testing -----------------------
-  console.log(userInfo);
+  // Finding email in database
   User.find({ email: userInfo.email }, function(err, users) {
+    // If email is found, then response if false
     if (users.length >= 1) {
       res.json({ 'success': false })
+      // But if no email is found, then create user and respond with true and search history
     } else if (users.length === 0 ) {
       User.create(userInfo, function(err, users) {
         req.session.email = userInfo.email;
-        // testing ---------------------------
-        console.log(req.session);
+        
         res.json({ 'success': true,
                   'searchHistory': false
          })
@@ -42,8 +42,9 @@ controller.post('/signup', function(req, res, next){
 
 // Login
 controller.post('/login', function(req, res, next) {
-
+  // Look for email in database
   User.findOne({ email: req.body.email}, function(err, user) {
+    // if user is found and password matches, respond with true and search history
     if (user) {
       var enteredPassword = req.body.password;
       var comparison = bcrypt.compareSync(enteredPassword, user.password);
@@ -64,7 +65,7 @@ controller.post('/login', function(req, res, next) {
   });
 });
 
-
+// -------------didn't use below, use for the future
 // update
 controller.put('/update', function(req, res) {
   var userInfo = {

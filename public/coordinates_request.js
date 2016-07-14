@@ -6,6 +6,7 @@ var forecastAPI = process.env.FORECAST;
 
 module.exports.coordinatesAndCity = function(coor) {
 	var location;
+	// Retrieving coordinates from zip code or city, state
 	request.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + coor + "&=key" + api, function (err, res, body) {
 		location = body;
 	})
