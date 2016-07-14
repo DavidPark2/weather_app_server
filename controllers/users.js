@@ -1,6 +1,7 @@
 var express = require('express');
 var controller = express.Router();
 var User = require('../models/Users');
+var Weather = require('../models/Weather');
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
@@ -39,21 +40,19 @@ controller.post('/signup', function(req, res, next){
 
 // Login
 controller.post('/login', function(req, res, next) {
-  var userInfo = {
-    email: req.body.email,
-    password: req.body.password
-  };
-  console.log(userInfo);
-  User.find({ email: userInfo.email }, function(err, user) {
-    var isPasswordValid = bcrypt.compareSync(userInfo.password, user[0].password);
-    if (isPasswordValid) {
-      req.session.email = userInfo.email;
-      // testing--------------------------
-      console.log(req.session.email);
-      res.json({ 'success': true});
+
+  User.findOne({ email: req.body.email}, function(err, user) {
+    if (user) {
+      var enteredPassword = req.body.password;
+      var comparison = bcrypt.compareSync(enteredPassword, user.password);
+      if (comparison === true) {
+        res.json({ 'success': true});
+      } else {
+        res.json({ 'success': false });
+      }
     } else {
-      res.json({ 'success': false });
-    }
+        res.json({ 'success': false });
+      }
   });
 });
 
