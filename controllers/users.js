@@ -7,11 +7,11 @@ var salt = bcrypt.genSaltSync(10);
 
 
 // logout
-controller.get('/logout', function(req, res, next) {
-  // destroy session
-  req.session = null;
-  res.json({ 'message': 'You have been logged out.'});
-});
+// controller.get('/logout', function(req, res, next) {
+//   // destroy session
+//   req.session = null;
+//   res.json({ 'message': 'You have been logged out.'});
+// });
 
 // create a account
 controller.post('/signup', function(req, res, next){
@@ -28,7 +28,7 @@ controller.post('/signup', function(req, res, next){
       // But if no email is found, then create user and respond with true and search history
     } else if (users.length === 0 ) {
       User.create(userInfo, function(err, users) {
-        req.session.email = userInfo.email;
+        // req.session.email = userInfo.email;
         
         res.json({ 'success': true,
                   'searchHistory': false
@@ -67,26 +67,26 @@ controller.post('/login', function(req, res, next) {
 
 // -------------didn't use below, use for the future
 // update
-controller.put('/update', function(req, res) {
-  var userInfo = {
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, salt)
-  };
-  console.log(userInfo);
-  User.findOneAndUpdate({ email: req.session.email }, userInfo, function (err, users) {
-    if (err) console.log(err);
-    req.session.email = userInfo.email;
-    res.json({ 'message': 'Account has been updated' })
-  })
-})
+// controller.put('/update', function(req, res) {
+//   var userInfo = {
+//     username: req.body.username,
+//     email: req.body.email,
+//     password: bcrypt.hashSync(req.body.password, salt)
+//   };
+//   console.log(userInfo);
+//   User.findOneAndUpdate({ email: req.session.email }, userInfo, function (err, users) {
+//     if (err) console.log(err);
+//     req.session.email = userInfo.email;
+//     res.json({ 'message': 'Account has been updated' })
+//   })
+// })
 
-// DELETE
-controller.delete('/delete', function(req, res) {
-  User.findOneAndRemove({ email: req.session.email }, req.session, function(err, user) {
-    if (err) console.log(err);
-    res.json({ 'message': 'Account has been deleted' })
-  })
-})
+// // DELETE
+// controller.delete('/delete', function(req, res) {
+//   User.findOneAndRemove({ email: req.session.email }, req.session, function(err, user) {
+//     if (err) console.log(err);
+//     res.json({ 'message': 'Account has been deleted' })
+//   })
+// })
 
 module.exports = controller;
