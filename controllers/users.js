@@ -30,7 +30,9 @@ controller.post('/signup', function(req, res, next){
         req.session.email = userInfo.email;
         // testing ---------------------------
         console.log(req.session);
-        res.json({ 'success': true })
+        res.json({ 'success': true,
+                  'searchHistory': false
+         })
       });
     } else {
       res.json({'message': 'error'})
@@ -46,7 +48,13 @@ controller.post('/login', function(req, res, next) {
       var enteredPassword = req.body.password;
       var comparison = bcrypt.compareSync(enteredPassword, user.password);
       if (comparison === true) {
-        res.json({ 'success': true});
+        Weather.find({ email: req.body.email }, function(err, data) {
+          console.log(data);
+          console.log('data^^^^^^^^^^')
+          res.json({ 'success': true,
+                      'searchHistory': data
+          });
+        })
       } else {
         res.json({ 'success': false });
       }
