@@ -9,6 +9,8 @@ controller.post('/search', function(req, res, next) {
 
 	// user given location
 	var userInput = req.body;
+	console.log(userInput)
+	console.log('^^^^^^^^^^^^^userInput')
 	var userLocation = userInput.inputLocation;
 	var userAccounts = userInput.inputAccount;
 
@@ -18,8 +20,14 @@ controller.post('/search', function(req, res, next) {
 	var lat = coordinatesAndCity.results[0].geometry.location.lat;
 	var lng = coordinatesAndCity.results[0].geometry.location.lng;
 
+	console.log(coordinatesAndCity)
+	console.log('^^^^^^^^^^^^^^^^coordinatesandcity')
+
 	// HTTP request for current Weather and previous 5 days
 	var allWeather = weatherRequest.get_current_weather(lat, lng);
+
+	console.log(allWeather)
+	console.log('^^^^^^^^^^^^^^^^allweather')
 
 	var location = {
 		location: city,
@@ -29,7 +37,12 @@ controller.post('/search', function(req, res, next) {
 		created_at: Date.now()
 	};
 
-	User.find({ email: userAccounts }, function(err, email) {			
+	console.log(location);
+	console.log('^^^^^^^^^^^^^location')
+
+	User.find({ email: userAccounts }, function(err, email) {	
+		console.log(email);
+		console.log('^^^^^^^^^^^^email')		
 		// This means it found a account in the database
 		if (email.length >= 1) {
 			// Created 
