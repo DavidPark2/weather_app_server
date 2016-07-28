@@ -15,26 +15,3 @@ module.exports.coordinatesAndCity = function(coor) {
     }
     return JSON.parse(location);
 }
-
-// module.exports.coordinatesAndCity = function(coor) {
-// 	// Retrieving coordinates from zip code or city, state
-// 	request.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + coor + "&=key" + api, function (err, res, body) {
-// 		if (!err && res.statusCode == 200) {
-// 			console.log(JSON.parse(body))
-// 			console.log('^^^^^^^^^bodyparsed')
-// 			return JSON.parse(body);
-// 		}
-// 	})
-
-// }
-
-// module.exports.coordinatesAndCity = function(coor) {
-// 	// Retrieving coordinates from zip code or city, state
-// 	request
-// 		.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + coor + "&=key" + api)
-// 		.on('response', function(err, res, body) {
-// 			console.log(res)
-// 			console.log('^^^^^^^^^^^res')
-// 		})
-
-// }

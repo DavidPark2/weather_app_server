@@ -20,7 +20,6 @@ controller.post('/signup', function(req, res, next) {
                 // But if no email is found, then create user and respond with true and search history
         } else if (users.length === 0) {
             User.create(userInfo, function(err, users) {
-                // req.session.email = userInfo.email;
 
                 res.json({
                     'success': true,
